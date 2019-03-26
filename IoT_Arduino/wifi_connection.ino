@@ -1,5 +1,5 @@
 ﻿#include "DHT.h"    // 使用 ESP8266 自帶的 DHT11 函式庫
-                    // 如果 libraries 已有其他的 DHT 函式庫，請先移除
+                    
 #include <ESP8266WiFi.h>
 
 //*-- Hardware Serial
@@ -14,12 +14,11 @@ DHT dht11( _dhtpin, _dhttype );
 float temperature, humidity;
 
 //*-- IoT Information
-#define SSID    "分享器ID名稱"
-#define PASS    "密碼"
-#define HOST    "184.106.153.149" // ThingSpeak IP Address: 184.106.153.149//api.thingspeak.com
-#define PORT    80
-// 使用 GET 傳送資料的格式
-// GET /update?key=[THINGSPEAK_KEY]&field1=[data 1]&filed2=[data 2]...;
+#define SSID
+#define PASS
+#define HOST    
+#define PORT
+
 String GET = "GET /update?key=0VD8RROGTK2MTIFT";
 
 void setup() {
@@ -84,7 +83,6 @@ void updateDHT11()
     }
     else
     {
-        // 準備上傳到 ThingSpeak IoT Server 的資料
         // 已經預先設定好 ThingSpeak IoT Channel 的欄位
         // field1：溫度；field2：濕度
         String getStr = GET + "&field1=" + String((int)temperature) + 
@@ -92,14 +90,8 @@ void updateDHT11()
                               " HTTP/1.1\r\n";;
         client.print( getStr );
         client.print( "Host: api.thingspeak.com\n" );
-        client.print( "Connection: close\r\n\r\n" );
-        
+        client.print( "Connection: close\r\n\r\n" );        
         delay(10);
-        //
-        // 處理遠端伺服器回傳的訊息，程式碼可以寫在這裡！
-        //
-
-
         client.stop();
     }
 }
